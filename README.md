@@ -1,5 +1,9 @@
 # CASINO-NO-PAY
 "A transparent, community-driven reporting platform and blacklist for identifying online casino gaming platforms that fail to honor payouts and financial commitments."
+**CASINO-NO-PAY.COM** is a consumer advocacy tool designed to protect players in the online gaming space. We provide a centralized database where users can report non-paying casinos, share evidence, and warn others about fraudulent platforms.
+
+
+
 ## 🚀 Project Overview
 This platform allows users to:
 * Submit detailed reports of withdrawal issues.
