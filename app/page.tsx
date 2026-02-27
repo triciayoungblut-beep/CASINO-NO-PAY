@@ -133,3 +133,5 @@ const ReportForm = () => {
     </div>
   );
 };
+
+export default ReportForm;
