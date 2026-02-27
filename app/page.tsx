@@ -66,7 +66,7 @@
               <label className="block text-sm font-bold text-gray-700 uppercase mb-2">Issue Description</label>
               <textarea
                 required
-                rows="4"
+                rows={4}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
                 value={formData.issue_description}
                 onChange={(e) => setFormData({...formData, issue_description: e.target.value})}
