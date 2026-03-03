@@ -53,15 +53,7 @@
               <img src="/2.png" alt="Blacklist Info" className="w-full max-w-sm h-auto block grayscale hover:grayscale-0 transition-all duration-500" />
             </div>
           </div>
-    
-          {/* The Blacklist Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-7xl md:text-9xl font-black text-red-600 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]">
-              THE BLACKLIST
-            </h2>
-          </div>
-          
-          {/* The Form */}
+              {/* The Form */}
           <div className="max-w-4xl mx-auto px-4">
             <div className="bg-zinc-900 border-4 border-red-600 p-8 rounded-none shadow-[10px_10px_0px_0px_rgba(220,38,38,1)] text-left">
               <h3 className="text-2xl font-bold mb-6 text-white uppercase border-b-2 border-red-600 pb-2 inline-block">
@@ -105,6 +97,15 @@
                 </button>
                 {status && <p className="text-center font-bold text-red-500 mt-4 animate-pulse">{status}</p>}
               </form>
+    
+          {/* The Blacklist Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-7xl md:text-9xl font-black text-red-600 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]">
+              THE BLACKLIST
+            </h2>
+          </div>
+          
+        
             </div>
           </div>
     
