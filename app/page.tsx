@@ -1,169 +1,77 @@
 "use client";
     
     import { useState } from "react";
-    import { supabase } from "../supabaseClient";
-    
-    export default function Home() {
-      const [formData, setFormData] = useState({
-        casinoName: "",
-        issue: "",
-        amount: "",
-      });
-      const [status, setStatus] = useState("");
-    
-      const [reports, setReports] = useState<any[]>([]);
-    
-      useEffect(() => {
-        const fetchReports = async () => {
-          const { data, error } = await supabase
-            .from('reports')
-            .select('*')
-            .order('created_at', { ascending: false });
-    
-          if (error) {
-            console.error('Error fetching reports:', error);
-          } else {
-            setReports(data || []);
-          }
-        };
-    
-        fetchReports();
-      }, []);
-    
-    
-      const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setStatus("Submitting...");
+   import { supabase } from '../supabaseClient';
+
+export default async function Home() {
+  const { data: reports } = await supabase
+    .from('reports')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  return (
+    <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen">
+      <header className="text-center py-10 border-b-4 border-black">
+        <h1 className="text-5xl font-black mb-4">WWW.CASINO-NO-PAY.COM</h1>
+        <p className="text-xl font-bold text-red-600 uppercase tracking-widest">
+          Reporting platforms that don't honor wins!
+        </p>
         
-        const { error } = await supabase
-          .from("reports")
-          .insert([{
-            casino_name: formData.casinoName,
-            issue_description: formData.issue,
-            amount_owed: parseFloat(formData.amount),
-            status: "pending"
-          }]);
-    
-        if (error) {
-          setStatus("Error: " + error.message);
-        } else {
-          setStatus("Report submitted successfully to THE BLACKLIST.");
-          setFormData({ casinoName: "", issue: "", amount: "" });
-        }
-      };
-    
-      return (
-        <main className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white pb-20">
-          {/* Hero Section */}
-          <div className="bg-red-700 py-12 border-b-8 border-black text-center px-4">
-            <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter drop-shadow-2xl italic">
-              WWW.CASINO-NO-PAY.COM
-            </h1>
-            <p className="mt-4 text-xl md:text-2xl font-bold max-w-3xl mx-auto leading-tight">
-              THIS IS A WEBSITE FOR REPORTING GAME PLATFORMS THAT MAKE PROMISES THEY DONT KEEP AND DONT HONOR WINS!
-            </p>
-          </div>
-    
-          {/* Canva Graphics Section */}
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 py-12 px-4 max-w-6xl mx-auto">
-            <div className="border-4 border-red-600 shadow-[10px_10px_0px_0px_rgba(220,38,38,1)] overflow-hidden bg-zinc-900">
-              <img src="/1.png" alt="Blacklist Info" className="w-full max-w-sm h-auto block grayscale hover:grayscale-0 transition-all duration-500" />
-            </div>
-            <div className="border-4 border-red-600 shadow-[10px_10px_0px_0px_rgba(220,38,38,1)] overflow-hidden bg-zinc-900">
-              <img src="/2.png" alt="Blacklist Info" className="w-full max-w-sm h-auto block grayscale hover:grayscale-0 transition-all duration-500" />
-            </div>
-          </div>
-              {/* The Form */}
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="bg-zinc-900 border-4 border-red-600 p-8 rounded-none shadow-[10px_10px_0px_0px_rgba(220,38,38,1)] text-left">
-              <h3 className="text-2xl font-bold mb-6 text-white uppercase border-b-2 border-red-600 pb-2 inline-block">
-                Submit a Report
-              </h3>
-              <form onSubmit={handleSubmit} className="space-x-0 space-y-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Casino/Platform Name</label>
-                  <input
-                    required
-                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
-                    value={formData.casinoName}
-                    onChange={(e) => setFormData({...formData, casinoName: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Total Amount Owed ($)</label>
-                  <input
-                    required
-                    type="number"
-                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
-                    value={formData.amount}
-                    onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Describe the Issue</label>
-                  <textarea
-                    required
-                    rows={4}
-                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
-                    value={formData.issue}
-                    onChange={(e) => setFormData({...formData, issue: e.target.value})}
-                  />
-                </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
-                >
-                  Add to Blacklist
-                </button>
-                {status && <p className="text-center font-bold text-red-500 mt-4 animate-pulse">{status}</p>}
-              </form>
-    
-          {/* The Blacklist Header */}
-          <div className="text-center mb-12">
-              <div>
-                {reports.map((report) => (
-                  <div key={report.id} className="mb-6 border border-gray-300 rounded-md">
-                    <div className="bg-red-100 p-4 rounded-t-md">
-                      <h4 className="font-bold text-red-800">Complaint against: {report.casino_name}</h4>
-                      <p className="text-red-700"><strong>Issue:</strong> {report.issue_description}</p>
-                      <p className="text-red-700"><strong>Amount Owed:</strong> ${report.amount_owed}</p>
-                      <p className="text-sm text-gray-600">Reported on: {new Date(report.created_at).toLocaleDateString()}</p>
-                    </div>
-                    <div className="bg-green-100 p-4">
-                      <h4 className="font-bold text-green-800">Casino Response:</h4>
-                      <p className="text-green-700">{report.casino_response || "No response yet."}</p>
-                    </div>
-                    <div className="bg-gray-100 p-2 rounded-b-md">
-                      <span className={`font-bold ${report.is_resolved ? 'text-green-600' : 'text-red-600'}`}>
-                        Status: {report.is_resolved ? 'Resolved' : 'Unresolved'}
-                      </span>
-                    </div>
+        {/* BIG RED JUMP BUTTON */}
+        <div className="mt-8">
+          <a href="#report-form" className="bg-red-600 hover:bg-red-700 text-white text-2xl font-black py-5 px-10 rounded-full shadow-2xl inline-block transform transition hover:scale-105 border-4 border-black no-underline">
+            🚩 REPORT A CASINO NOW
+          </a>
+        </div>
+      </header>
+
+      {/* THE BLACKLIST THREADS */}
+      <section className="my-12">
+        <h2 className="text-3xl font-black mb-6 bg-black text-white inline-block px-4 py-2 uppercase">The Blacklist</h2>
+        <div className="space-y-6">
+          {reports && reports.length > 0 ? (
+            reports.map((report) => (
+              <div key={report.id} className="border-4 border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                {/* User Complaint Section */}
+                <div className="bg-red-50 p-6 border-b-2 border-black">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-2xl font-bold uppercase">{report.casino_name}</h3>
+                    <span className="bg-black text-white font-bold px-3 py-1 text-lg">
+                      ${report.amount} OWED
+                    </span>
                   </div>
-                ))}
-                {reports.length === 0 && <p>No reports submitted yet.</p>}
+                  <p className="text-lg font-medium text-gray-800">{report.issue}</p>
+                  <div className="mt-3">
+                    <span className={`font-black text-sm px-3 py-1 border-2 border-black ${report.is_resolved ? 'bg-green-400 text-black' : 'bg-yellow-400 text-black'}`}>
+                      STATUS: {report.is_resolved ? 'RESOLVED' : 'UNRESOLVED'}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Casino Response Section */}
+                <div className="bg-gray-100 p-6">
+                  <h4 className="font-black text-sm uppercase mb-2 tracking-tighter text-gray-500 italic">Official Casino Response:</h4>
+                  <p className="text-lg italic text-gray-700">
+                    {report.casino_response || "⚠️ This casino has not responded to this claim yet."}
+                  </p>
+                </div>
               </div>
-    
-            <h2 className="text-7xl md:text-9xl font-black text-red-600 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]">
-              THE BLACKLIST
-            </h2>
-          </div>
-          <div className="text-center font-bold">Casino Response</div>
-        
+            ))
+          ) : (
+            <div className="text-center py-10 border-2 border-dashed border-gray-300">
+              <p className="text-xl italic text-gray-500">No reports found in the database yet.</p>
             </div>
-          </div>
-    
-          {/* Legal Footer */}
-          <footer className="bg-zinc-950 py-12 px-6 border-t border-zinc-800 mt-24">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-[10px] uppercase leading-relaxed text-zinc-500 text-center md:text-left">
-              <p>"The information on this website is provided for general informational and educational purposes only. All information on the site is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding accuracy, adequacy, validity, reliability, availability, or completeness."</p>
-              <p>"This platform displays reports submitted by third-party users. WWW.CASINO-NO-PAY.COM does not verify the truthfulness of individual reports and is not responsible for the content, opinions, or claims expressed by users. Platforms are generally not liable for content posted by users."</p>
-              <p>"Reviews and reports on this site represent the opinions of the reporters and constitute fair comment and protected speech."</p>
-            </div>
-            <div className="text-center mt-8 text-[12px] font-bold text-zinc-700">
-              © {new Date().getFullYear()} WWW.CASINO-NO-PAY.COM | ALL RIGHTS RESERVED
-            </div>
-          </footer>
-        </main>
-      );
-    }
+          )}
+        </div>
+      </section>
+
+      {/* REPORT FORM WITH ID */}
+      <section id="report-form" className="bg-black text-white p-8 my-12">
+        <h2 className="text-3xl font-black mb-6 uppercase">Submit a Report</h2>
+        {/* Note: Ensure your form component or HTML is placed here */}
+        <p className="text-gray-400 text-sm italic">Submitting a report will list the platform on our public database.</p>
+      </section>
+    </main>
+  );
+}}
     
