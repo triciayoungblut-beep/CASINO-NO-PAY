@@ -11,6 +11,26 @@
       });
       const [status, setStatus] = useState("");
     
+      const [reports, setReports] = useState<any[]>([]);
+    
+      useEffect(() => {
+        const fetchReports = async () => {
+          const { data, error } = await supabase
+            .from('reports')
+            .select('*')
+            .order('created_at', { ascending: false });
+    
+          if (error) {
+            console.error('Error fetching reports:', error);
+          } else {
+            setReports(data || []);
+          }
+        };
+    
+        fetchReports();
+      }, []);
+    
+    
       const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus("Submitting...");
@@ -100,6 +120,29 @@
     
           {/* The Blacklist Header */}
           <div className="text-center mb-12">
+              <div>
+                {reports.map((report) => (
+                  <div key={report.id} className="mb-6 border border-gray-300 rounded-md">
+                    <div className="bg-red-100 p-4 rounded-t-md">
+                      <h4 className="font-bold text-red-800">Complaint against: {report.casino_name}</h4>
+                      <p className="text-red-700"><strong>Issue:</strong> {report.issue_description}</p>
+                      <p className="text-red-700"><strong>Amount Owed:</strong> ${report.amount_owed}</p>
+                      <p className="text-sm text-gray-600">Reported on: {new Date(report.created_at).toLocaleDateString()}</p>
+                    </div>
+                    <div className="bg-green-100 p-4">
+                      <h4 className="font-bold text-green-800">Casino Response:</h4>
+                      <p className="text-green-700">{report.casino_response || "No response yet."}</p>
+                    </div>
+                    <div className="bg-gray-100 p-2 rounded-b-md">
+                      <span className={`font-bold ${report.is_resolved ? 'text-green-600' : 'text-red-600'}`}>
+                        Status: {report.is_resolved ? 'Resolved' : 'Unresolved'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                {reports.length === 0 && <p>No reports submitted yet.</p>}
+              </div>
+    
             <h2 className="text-7xl md:text-9xl font-black text-red-600 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]">
               THE BLACKLIST
             </h2>
