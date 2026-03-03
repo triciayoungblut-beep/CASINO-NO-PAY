@@ -1,134 +1,113 @@
-
-    "use client";
+"use client";
     
-    import { useState } from 'react';
-    import { supabase } from '../supabaseClient';
+    import { useState } from "react";
+    import { supabase } from "../supabaseClient";
     
-    const Page = () => {
+    export default function Home() {
       const [formData, setFormData] = useState({
-        casino_name: '',
-        amount_owed: '',
-        issue_description: '',
-        reporter_email: ''
+        casinoName: "",
+        issue: "",
+        amount: "",
       });
-      const [loading, setLoading] = useState(false);
-      const [message, setMessage] = useState('');
-    
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+      const [status, setStatus] = useState("");
     
       const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        setMessage('');
-    
+        setStatus("Submitting...");
+        
         const { error } = await supabase
-          .from('reports')
-          .insert([
-            { 
-              casino_name: formData.casino_name, 
-              amount_owed: parseFloat(formData.amount_owed), 
-              issue_description: formData.issue_description,
-              reporter_email: formData.reporter_email,
-              status: "pending"
-            }
-          ]);
-    
-        setLoading(false);
+          .from("reports")
+          .insert([{
+            casino_name: formData.casinoName,
+            issue_description: formData.issue,
+            amount_owed: parseFloat(formData.amount),
+            status: "pending"
+          }]);
     
         if (error) {
-          setMessage('Error submitting report: ' + error.message);
+          setStatus("Error: " + error.message);
         } else {
-          setMessage('Report submitted successfully! It will appear on the Wall of Shame soon.');
-          setFormData({ casino_name: '', amount_owed: '', issue_description: '', reporter_email: '' });
+          setStatus("Report submitted successfully to THE BLACKLIST.");
+          setFormData({ casinoName: "", issue: "", amount: "" });
         }
       };
     
       return (
-        <div className="flex flex-col min-h-screen bg-black text-white p-8 font-sans">
-          <header className="w-full text-center py-6">
-            <h1 className="text-5xl md:text-7xl font-bold text-red-600 drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]">
-              The Blacklist
+        <main className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white">
+          {/* Hero Section */}
+          <div className="bg-red-700 py-12 border-b-8 border-black text-center px-4">
+            <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter drop-shadow-2xl italic">
+              WWW.CASINO-NO-PAY.COM
             </h1>
-            <p className="text-white/80 mt-2">Casinos That Don't Pay</p>
-          </header>
+            <p className="mt-4 text-xl md:text-2xl font-bold max-w-3xl mx-auto leading-tight">
+              THIS IS A WEBSITE FOR REPORTING GAME PLATFORMS THAT MAKE PROMISES THEY DONT KEEP AND DONT HONOR WINS!
+            </p>
+          </div>
     
-          <main className="flex-grow flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
-            <section className="w-full bg-gray-900/50 p-6 rounded-lg shadow-lg border border-gray-700 mb-12">
-              <h2 className="text-3xl font-semibold mb-6 text-center text-red-500">Submit a Report</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+          {/* The Blacklist Section */}
+          <div className="py-16 px-4 max-w-4xl mx-auto text-center">
+            <h2 className="text-7xl md:text-9xl font-black text-red-600 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(220,38,38,0.8)] mb-8">
+              THE BLACKLIST
+            </h2>
+            
+            {/* The Form */}
+            <div className="bg-zinc-900 border-4 border-red-600 p-8 rounded-none shadow-[10px_10px_0px_0px_rgba(220,38,38,1)] text-left">
+              <h3 className="text-2xl font-bold mb-6 text-white uppercase border-b-2 border-red-600 pb-2 inline-block">
+                Submit a Report
+              </h3>
+              <form onSubmit={handleSubmit} className="space-x-0 space-y-4">
                 <div>
-                  <label htmlFor="casino_name" className="block text-sm font-medium text-white/90 mb-1">Casino Name:</label>
+                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Casino/Platform Name</label>
                   <input
-                    type="text"
-                    name="casino_name"
-                    id="casino_name"
-                    value={formData.casino_name}
-                    onChange={handleChange}
                     required
-                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:border-red-500"
+                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
+                    value={formData.casinoName}
+                    onChange={(e) => setFormData({...formData, casinoName: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label htmlFor="amount_owed" className="block text-sm font-medium text-white/90 mb-1">Amount Owed (USD):</label>
+                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Total Amount Owed ($)</label>
                   <input
+                    required
                     type="number"
-                    name="amount_owed"
-                    id="amount_owed"
-                    value={formData.amount_owed}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:border-red-500"
+                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({...formData, amount: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label htmlFor="issue_description" className="block text-sm font-medium text-white/90 mb-1">Issue Description:</label>
+                  <label className="block text-xs font-bold uppercase text-gray-400 mb-1">Describe the Issue</label>
                   <textarea
-                    name="issue_description"
-                    id="issue_description"
-                    rows={4}
-                    value={formData.issue_description}
-                    onChange={handleChange}
                     required
-                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:border-red-500"
+                    rows={4}
+                    className="w-full bg-black border-2 border-zinc-700 p-3 focus:border-red-600 outline-none text-white transition-colors"
+                    value={formData.issue}
+                    onChange={(e) => setFormData({...formData, issue: e.target.value})}
                   />
                 </div>
-                <div>
-                  <label htmlFor="reporter_email" className="block text-sm font-medium text-white/90 mb-1">Your Email (Optional, for updates):</label>
-                  <input
-                    type="email"
-                    name="reporter_email"
-                    id="reporter_email"
-                    value={formData.reporter_email}
-                    onChange={handleChange}
-                    className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:border-red-500"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
-                  >
-                    {loading ? 'Submitting...' : 'Submit Report'}
-                  </button>
-                </div>
+                <button 
+                  type="submit"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
+                >
+                  Add to Blacklist
+                </button>
+                {status && <p className="text-center font-bold text-red-500 mt-4 animate-pulse">{status}</p>}
               </form>
-              {message && <p className={`mt-4 text-center ${message.startsWith('Error') ? 'text-red-400' : 'text-green-400'}`}>{message}</p>}
-            </section>
+            </div>
+          </div>
     
-            <section className="w-full text-center mt-auto pt-10">
-              <p className="text-[10px] text-white/70">
-                Legal Disclaimer: This website is for informational and reporting purposes only. We are not liable for any financial losses or damages. 
-                All reports are user-submitted and we do not verify the authenticity of every claim immediately. 
-                Engage with online casinos at your own risk.
-              </p>
-            </section>
-          </main>
-        </div>
+          {/* Legal Footer */}
+          <footer className="bg-zinc-950 py-12 px-6 border-t border-zinc-800">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-[10px] uppercase leading-relaxed text-zinc-500 text-center md:text-left">
+              <p>"The information on this website is provided for general informational and educational purposes only. All information on the site is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding accuracy, adequacy, validity, reliability, availability, or completeness."</p>
+              <p>"This platform displays reports submitted by third-party users. WWW.CASINO-NO-PAY.COM does not verify the truthfulness of individual reports and is not responsible for the content, opinions, or claims expressed by users. Platforms are generally not liable for content posted by users."</p>
+              <p>"Reviews and reports on this site represent the opinions of the reporters and constitute fair comment and protected speech."</p>
+            </div>
+            <div className="text-center mt-8 text-[12px] font-bold text-zinc-700">
+              © {new Date().getFullYear()} WWW.CASINO-NO-PAY.COM | ALL RIGHTS RESERVED
+            </div>
+          </footer>
+        </main>
       );
-    };
-    
-    export default Page;
+    }
     
