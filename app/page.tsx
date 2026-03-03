@@ -104,7 +104,7 @@
               THE BLACKLIST
             </h2>
           </div>
-          
+          <div className="text-center font-bold">Casino Response</div>
         
             </div>
           </div>
