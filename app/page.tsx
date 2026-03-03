@@ -47,8 +47,8 @@ export default async function Home() {
                   </div>
                   <p className="text-xl font-bold leading-tight mb-4 italic text-gray-900">"{report.issue_description || report.issue}"</p>
                   <div>
-                    <span className={`font-black text-sm px-4 py-2 border-2 border-black uppercase tracking-tighter ${report.is_resolved ? 'bg-green-400' : 'bg-yellow-400'}`}>
-                      Status: {report.is_resolved ? 'RESOLVED' : 'UNRESOLVED'}
+                    <span className={`font-black text-sm px-4 py-2 border-2 border-black uppercase tracking-tighter ${report.status === 'resolved' ? 'bg-green-400' : 'bg-yellow-400'}`}>
+                      Status: {report.status || 'UNRESOLVED'}
                     </span>
                   </div>
                 </div>
@@ -78,26 +78,6 @@ export default async function Home() {
            <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
         </div>
         <p className="text-xl font-bold mb-8 uppercase bg-black text-white inline-block px-4">Help the community by identifying non-paying sites.</p>
-        {/* Your form stays active below this */}
-      </section>
-
-      <footer className="text-center py-10 opacity-70">
-         <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale" />
-         <p className="font-bold uppercase tracking-widest">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
-      </footer>
-    </main>
-  );
-}          )}
-        </div>
-      </section>
-
-      <section id="report-form" className="bg-red-600 text-white p-10 my-20 border-8 border-black shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-        <div className="flex justify-between items-center mb-8">
-           <h2 className="text-5xl font-black uppercase italic underline">Submit Report</h2>
-           <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
-        </div>
-        <p className="text-xl font-bold mb-8 uppercase bg-black text-white inline-block px-4">Help the community by identifying non-paying sites.</p>
-        {/* Form will go here */}
       </section>
 
       <footer className="text-center py-10 opacity-70">
