@@ -17,8 +17,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
-      <header className="text-center py-10 border-b-4 border-black mb-8">
+   <main className="relative max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
+    <header className="absolute top-0 left-0 w-full z-0 opacity-20 pointer-events-none text-center py-10 border-b-4 border-black mb-8">
         <div className="flex justify-center gap-4 mb-6">
            <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
            <img src="/2.png" alt="Warning" className="h-24 w-auto border-2 border-black shadow-md" />
@@ -31,7 +31,7 @@ export default function Home() {
       </header>
 
       {/* REPORT FORM SECTION */}
-      <section id="report-form" className="bg-red-600 text-white p-10 my-12 border-8 border-black shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
+     <section id="report-form" className="relative z-10 bg-red-600 ...">
         <div className="flex justify-between items-center mb-8">
            <h2 className="text-5xl font-black uppercase italic underline text-white">Submit Report</h2>
            <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
