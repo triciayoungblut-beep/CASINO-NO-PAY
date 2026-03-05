@@ -111,16 +111,7 @@ export default function Home() {
                         {report.casino_response || "PENDING INVESTIGATION: No response received from operator yet."}
                       </p>
                    </div>
-                </div>
-              </div>
-            ))
-          ) : (
-           
-          )}
-        </div>
-      </section>
-
-    
+          
     </main>
   );
 }//
