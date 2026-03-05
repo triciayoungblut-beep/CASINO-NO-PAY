@@ -1,12 +1,21 @@
 "use client";
     
+    import React, { useState, useEffect } from 'react';
     import { supabase } from '../supabaseClient';
     
-    export default async function Home() {
-      const { data: reports } = await supabase
-        .from('reports')
-        .select('*')
-        .order('created_at', { ascending: false });
+    export default function Home() {
+      const [reports, setReports] = useState([]);
+    
+      useEffect(() => {
+        async function fetchReports() {
+          const { data } = await supabase
+            .from('reports')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (data) setReports(data);
+        }
+        fetchReports();
+      }, []);
     
       return (
         <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
@@ -22,50 +31,50 @@
             </p>
           </header>
     
-          {/* REPORT FORM SECTION - PLACED ABOVE THE BLACKLIST */}
+          {/* REPORT FORM SECTION */}
           <section id="report-form" className="bg-red-600 text-white p-10 my-12 border-8 border-black shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex justify-between items-center mb-8">
                <h2 className="text-5xl font-black uppercase italic underline text-white">Submit Report</h2>
                <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
             </div>
             
-       <form 
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.currentTarget);
-            const { error } = await supabase
-              .from('reports')
-              .insert([{ 
-                casino_name: formData.get('casino_name'), 
-                amount: parseFloat(formData.get('amount') as string), 
-                issue: formData.get('issue'),
-                status: 'pending' 
-              }]);
-              
-            if (error) alert("Error: " + error.message);
-            else {
-              alert("Report Submitted!");
-              window.location.reload();
-            }
-          }} 
-          className="space-y-6"
-        >
-          <div>
-            <label className="block font-black uppercase text-xl mb-2">Casino Name / URL</label>
-            <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="scam-site.com" />
-          </div>
-          <div>
-            <label className="block font-black uppercase text-xl mb-2">Amount Owed ($)</label>
-            <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
-          </div>
-          <div>
-            <label className="block font-black uppercase text-xl mb-2">Describe the Issue</label>
-            <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Explain the issue..."></textarea>
-          </div>
-          <button type="submit" className="w-full bg-black text-white font-black text-3xl py-6 border-4 border-white uppercase italic">
-            SUBMIT TO BLACKLIST 🚩
-          </button>
-        </form>
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const { error } = await supabase
+                  .from('reports')
+                  .insert([{ 
+                    casino_name: formData.get('casino_name'), 
+                    amount: parseFloat(formData.get('amount') as string), 
+                    issue: formData.get('issue'),
+                    status: 'pending' 
+                  }]);
+                  
+                if (error) alert("Error: " + error.message);
+                else {
+                  alert("Report Submitted!");
+                  window.location.reload();
+                }
+              }} 
+              className="space-y-6"
+            >
+              <div>
+                <label className="block font-black uppercase text-xl mb-2">Casino Name / URL</label>
+                <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="scam-site.com" />
+              </div>
+              <div>
+                <label className="block font-black uppercase text-xl mb-2">Amount Owed ($)</label>
+                <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
+              </div>
+              <div>
+                <label className="block font-black uppercase text-xl mb-2">Describe the Issue</label>
+                <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Explain the issue..."></textarea>
+              </div>
+              <button type="submit" className="w-full bg-black text-white font-black text-3xl py-6 border-4 border-white uppercase italic">
+                SUBMIT TO BLACKLIST 🚩
+              </button>
+            </form>
           </section>
     
           {/* THE BLACKLIST SECTION */}
