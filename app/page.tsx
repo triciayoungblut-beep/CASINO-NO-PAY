@@ -115,9 +115,7 @@ export default function Home() {
               </div>
             ))
           ) : (
-            <div className="text-center py-20 border-4 border-dashed border-gray-400">
-              <p className="text-2xl font-black text-gray-400 uppercase">Searching database for reports...</p>
-            </div>
+           
           )}
         </div>
       </section>
