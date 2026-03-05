@@ -18,11 +18,12 @@
         fetchReports();
       }, []);
     
-      return (
-        <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
+
+////       </section>      return (
+////        <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
           <header className="text-center py-10 border-b-4 border-black mb-8">
             <div className="flex justify-center gap-4 mb-6">
-               <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
+            </div>header>            </div>header>            </div>header>            </div>header>               <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
                <img src="/2.png" alt="Warning" className="h-24 w-auto border-2 border-black shadow-md" />
             </div>
             
