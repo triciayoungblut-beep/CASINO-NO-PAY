@@ -30,35 +30,6 @@
             <p className="text-xl font-bold text-red-600 uppercase tracking-widest border-y-2 border-red-600 py-2 inline-block">
               Exposing platforms that refuse to pay!"use client";
     
-
-      return (
-        <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
-          <header className="text-center py-10 border-b-4 border-black mb-8">
-            <div className="flex justify-center gap-4 mb-6">
-               <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
-               <img src="/2.png" alt="Warning" className="h-24 w-auto border-2 border-black shadow-md" />
-            </div>
-            
-            <h1 className="text-5xl font-black mb-4 uppercase italic tracking-tighter">WWW.CASINO-NO-PAY.COM</h1>
-            <p className="text-xl font-bold text-red-600 uppercase tracking-widest border-y-2 border-red-600 py-2 inline-block">
-              Exposing platforms that refuse to pay!
-            </p>
-          </header>
-    
-          {/* REPORT FORM SECTION - NOW AT THE TOP */}
-          <section id="report-form" className="bg-red-600 text-white p-10 my-12 border-8 border-black shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <div className="flex justify-between items-center mb-8">
-               <h2 className="text-5xl font-black uppercase italic underline text-white">Submit Report</h2>
-               <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
-            </div>
-            
-            <form 
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const { error } = await supabase
-                  .from('reports')
-                  .insert([{ 
                     casino_name: formData.get('casino_name'), 
                     amount: parseFloat(formData.get('amount') as string), 
                     issue: formData.get('issue'),
