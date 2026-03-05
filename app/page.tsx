@@ -110,8 +110,15 @@ export default function Home() {
                       <p className="text-lg font-bold text-gray-300 italic">
                         {report.casino_response || "PENDING INVESTIGATION: No response received from operator yet."}
                       </p>
-                   </div>
-          
-    </main>
-  );
-}//
+          </div>
+        ))
+      ) : (
+        <div className="text-center py-20 border-4 border-dashed border-gray-400">
+          <p className="text-2xl font-black text-gray-400 uppercase">Searching database for reports...</p>
+        </div>
+      )}
+    </div>
+  </section>
+</main>
+);
+}
