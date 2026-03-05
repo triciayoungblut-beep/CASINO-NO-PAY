@@ -30,23 +30,7 @@
             <p className="text-xl font-bold text-red-600 uppercase tracking-widest border-y-2 border-red-600 py-2 inline-block">
               Exposing platforms that refuse to pay!"use client";
     
-    import React, { useState, useEffect } from 'react';
-    import { supabase } from '../supabaseclient';
-    
-    export default function Home() {
-      const [reports, setReports] = useState([]);
-    
-      useEffect(() => {
-        async function fetchReports() {
-          const { data } = await supabase
-            .from('reports')
-            .select('*')
-            .order('created_at', { ascending: false });
-          if (data) setReports(data);
-        }
-        fetchReports();
-      }, []);
-    
+
       return (
         <main className="max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
           <header className="text-center py-10 border-b-4 border-black mb-8">
