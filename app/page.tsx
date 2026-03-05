@@ -1,7 +1,8 @@
-"use client";
+
+    "use client";
     
     import React, { useState, useEffect } from 'react';
-    import { supabase } from '../supabaseClient';
+    import { supabase } from '../supabaseclient';
     
     export default function Home() {
       const [reports, setReports] = useState([]);
@@ -31,7 +32,7 @@
             </p>
           </header>
     
-          {/* REPORT FORM SECTION */}
+          {/* REPORT FORM SECTION - NOW AT THE TOP */}
           <section id="report-form" className="bg-red-600 text-white p-10 my-12 border-8 border-black shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex justify-between items-center mb-8">
                <h2 className="text-5xl font-black uppercase italic underline text-white">Submit Report</h2>
@@ -51,33 +52,37 @@
                     status: 'pending' 
                   }]);
                   
-                if (error) alert("Error: " + error.message);
-                else {
-                  alert("Report Submitted!");
+                if (error) {
+                  alert("Error: " + error.message);
+                } else {
+                  alert("Report Submitted Successfully!");
                   window.location.reload();
                 }
               }} 
               className="space-y-6"
             >
               <div>
-                <label className="block font-black uppercase text-xl mb-2">Casino Name / URL</label>
-                <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="scam-site.com" />
+                <label className="block font-black uppercase text-xl mb-2 text-white">Casino Name / URL</label>
+                <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="e.g. scamcasino.com" />
               </div>
+    
               <div>
-                <label className="block font-black uppercase text-xl mb-2">Amount Owed ($)</label>
+                <label className="block font-black uppercase text-xl mb-2 text-white">Amount Owed ($)</label>
                 <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
               </div>
+    
               <div>
-                <label className="block font-black uppercase text-xl mb-2">Describe the Issue</label>
-                <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Explain the issue..."></textarea>
+                <label className="block font-black uppercase text-xl mb-2 text-white">Describe the Issue</label>
+                <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Tell us what happened..."></textarea>
               </div>
-              <button type="submit" className="w-full bg-black text-white font-black text-3xl py-6 border-4 border-white uppercase italic">
+    
+              <button type="submit" className="w-full bg-black hover:bg-gray-900 text-white font-black text-3xl py-6 border-4 border-white uppercase italic transform transition hover:scale-105">
                 SUBMIT TO BLACKLIST 🚩
               </button>
             </form>
           </section>
     
-          {/* THE BLACKLIST SECTION */}
+          {/* THE BLACKLIST SECTION - NOW BELOW THE FORM */}
           <section className="my-16">
             <div className="flex items-center gap-4 mb-8">
               <img src="/3.png" alt="Alert" className="h-12 w-auto" />
@@ -95,7 +100,7 @@
                           ${report.amount} OWED
                         </div>
                       </div>
-                      <p className="text-xl font-bold leading-tight mb-4 italic text-gray-900">"{report.issue_description || report.issue}"</p>
+                      <p className="text-xl font-bold leading-tight mb-4 italic text-gray-900">"{report.issue}"</p>
                       <div>
                         <span className={`font-black text-sm px-4 py-2 border-2 border-black uppercase tracking-tighter ${report.status === 'resolved' ? 'bg-green-400 text-black' : 'bg-yellow-400 text-black'}`}>
                           Status: {report.status || 'UNRESOLVED'}
