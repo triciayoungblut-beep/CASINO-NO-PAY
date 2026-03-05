@@ -82,10 +82,7 @@ export default function Home() {
 
       {/* THE BLACKLIST SECTION */}
       <section className="my-16">
-        <div className="flex items-center gap-4 mb-8">
-          <img src="/3.png" alt="Alert" className="h-12 w-auto" />
-          <h2 className="text-4xl font-black bg-black text-white px-6 py-2 uppercase transform -rotate-1">The Blacklist</h2>
-        </div>
+     
 
         <div className="space-y-8">
           {reports && reports.length > 0 ? (
@@ -125,10 +122,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="text-center py-10 opacity-70">
-         <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale" />
-         <p className="font-bold uppercase tracking-widest text-black">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
-      </footer>
+    
     </main>
   );
 }//
