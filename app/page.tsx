@@ -29,49 +29,43 @@
                <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
             </div>
             
-            <form 
-              action={async (formData) => {
-                const casino_name = formData.get('casino_name');
-                const amount = formData.get('amount');
-                const issue = formData.get('issue');
-                
-                const { error } = await supabase
-                  .from('reports')
-                  .insert([{ 
-                    casino_name, 
-                    amount: parseFloat(amount as string), 
-                    issue,
-                    status: 'pending' 
-                  }]);
-                  
-                if (error) {
-                  alert("Error: " + error.message);
-                } else {
-                  alert("Report Submitted Successfully!");
-                  window.location.reload();
-                }
-              }} 
-              className="space-y-6"
-            >
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Casino Name / URL</label>
-                <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="e.g. scamcasino.com" />
-              </div>
-    
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Amount Owed ($)</label>
-                <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
-              </div>
-    
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Describe the Issue</label>
-                <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Tell us what happened..."></textarea>
-              </div>
-    
-              <button type="submit" className="w-full bg-black hover:bg-gray-900 text-white font-black text-3xl py-6 border-4 border-white uppercase italic transform transition hover:scale-105">
-                SUBMIT TO BLACKLIST 🚩
-              </button>
-            </form>
+       <form 
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const { error } = await supabase
+              .from('reports')
+              .insert([{ 
+                casino_name: formData.get('casino_name'), 
+                amount: parseFloat(formData.get('amount') as string), 
+                issue: formData.get('issue'),
+                status: 'pending' 
+              }]);
+              
+            if (error) alert("Error: " + error.message);
+            else {
+              alert("Report Submitted!");
+              window.location.reload();
+            }
+          }} 
+          className="space-y-6"
+        >
+          <div>
+            <label className="block font-black uppercase text-xl mb-2">Casino Name / URL</label>
+            <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="scam-site.com" />
+          </div>
+          <div>
+            <label className="block font-black uppercase text-xl mb-2">Amount Owed ($)</label>
+            <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
+          </div>
+          <div>
+            <label className="block font-black uppercase text-xl mb-2">Describe the Issue</label>
+            <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Explain the issue..."></textarea>
+          </div>
+          <button type="submit" className="w-full bg-black text-white font-black text-3xl py-6 border-4 border-white uppercase italic">
+            SUBMIT TO BLACKLIST 🚩
+          </button>
+        </form>
           </section>
     
           {/* THE BLACKLIST SECTION */}
