@@ -30,36 +30,6 @@
             <p className="text-xl font-bold text-red-600 uppercase tracking-widest border-y-2 border-red-600 py-2 inline-block">
               Exposing platforms that refuse to pay!"use client";
     
-                    casino_name: formData.get('casino_name'), 
-                    amount: parseFloat(formData.get('amount') as string), 
-                    issue: formData.get('issue'),
-                    status: 'pending' 
-                  }]);
-                  
-                if (error) {
-                  alert("Error: " + error.message);
-                } else {
-                  alert("Report Submitted Successfully!");
-                  window.location.reload();
-                }
-              }} 
-              className="space-y-6"
-            >
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Casino Name / URL</label>
-                <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="e.g. scamcasino.com" />
-              </div>
-    
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Amount Owed ($)</label>
-                <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
-              </div>
-    
-              <div>
-                <label className="block font-black uppercase text-xl mb-2 text-white">Describe the Issue</label>
-                <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Tell us what happened..."></textarea>
-              </div>
-    
               <button type="submit" className="w-full bg-black hover:bg-gray-900 text-white font-black text-3xl py-6 border-4 border-white uppercase italic transform transition hover:scale-105">
                 SUBMIT TO BLACKLIST 🚩
               </button>
