@@ -46,7 +46,7 @@ export default function Home() {
               .insert([{ 
                 casino_name: formData.get('casino_name'), 
                 amount_owed: parseFloat(formData.get('amount') as string),
-                issue: formData.get('issue'),
+               issue_description: formData.get('issue'),
                 status: 'pending' 
               }]);
               
