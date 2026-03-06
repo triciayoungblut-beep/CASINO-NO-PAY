@@ -8,9 +8,11 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchReports() {
+      // 1. Moderate reports: Only fetch and show reports marked as 'approved'
       const { data } = await supabase
         .from('reports')
         .select('*')
+        .eq('status', 'approved')
         .order('created_at', { ascending: false });
       if (data) setReports(data);
     }
@@ -42,6 +44,8 @@ export default function Home() {
           onSubmit={async (e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
+            
+            // 2. Automated review flow: New reports are inserted as 'pending'
             const { error } = await supabase
               .from('reports')
               .insert([{ 
@@ -54,7 +58,7 @@ export default function Home() {
             if (error) {
               alert("Error: " + error.message);
             } else {
-              alert("Report Submitted Successfully!");
+              alert("Report Submitted Successfully! It will appear on the site after a manual review.");
               window.location.reload();
             }
           }} 
@@ -83,7 +87,7 @@ export default function Home() {
 
       {/* THE BLACKLIST SECTION WITH BACKGROUND GRAPHICS */}
       <section className="relative my-16 min-h-[600px]">
-        {/* GRAPHICS LAYER (This sits BEHIND the reports) */}
+        {/* GRAPHICS LAYER (Stays behind the list) */}
         <div className="absolute inset-0 z-0 flex flex-col items-center justify-start pt-10 opacity-20 pointer-events-none">
           <div className="flex items-center gap-4 mb-4">
             <img src="/3.png" alt="Alert" className="h-24 w-auto" />
@@ -94,7 +98,7 @@ export default function Home() {
           <p className="text-5xl font-black text-gray-400 uppercase italic tracking-widest">Wall of Shame</p>
         </div>
 
-        {/* REPORTS LAYER (This sits ON TOP) */}
+        {/* REPORTS LAYER (Sits on top) */}
         <div className="relative z-10 space-y-8">
           {reports && reports.length > 0 ? (
             reports.map((report) => (
@@ -114,6 +118,7 @@ export default function Home() {
                   </div>
                 </div>
                 
+                {/* 3. Casino Response Section */}
                 <div className="bg-black text-white p-6 flex gap-4">
                    <div className="bg-white text-black font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">REPLY</div>
                    <div>
