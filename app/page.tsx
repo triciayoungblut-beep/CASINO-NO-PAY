@@ -12,7 +12,7 @@ export default function Home() {
       const { data } = await supabase
         .from('reports')
         .select('*')
-        .eq('status', 'approved')
+      .eq('post_approvals', true)
         .order('created_at', { ascending: false });
       if (data) setReports(data);
     }
