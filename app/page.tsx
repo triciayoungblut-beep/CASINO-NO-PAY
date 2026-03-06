@@ -68,7 +68,7 @@ export default function Home() {
         </form>
       </section>
 
-      {/* THE BLACKLIST SECTION */}
+      {/* THE BLACKLIST SECTION WITH BACKGROUND GRAPHICS */}
       <section className="relative my-16 min-h-[400px]">
         {/* BACKGROUND GRAPHICS LAYER */}
         <div className="absolute inset-0 z-0 opacity-10 pointer-events-none flex flex-col items-center justify-start pt-10">
