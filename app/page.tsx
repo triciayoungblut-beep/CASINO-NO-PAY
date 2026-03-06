@@ -69,38 +69,50 @@ export default function Home() {
       </section>
 
       {/* THE BLACKLIST SECTION */}
-      <section className="my-16">
-        <div className="space-y-8">
+      <section className="relative my-16 min-h-[400px]">
+        {/* BACKGROUND GRAPHICS LAYER */}
+        <div className="absolute inset-0 z-0 opacity-10 pointer-events-none flex flex-col items-center justify-start pt-10">
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/3.png" alt="Alert" className="h-20 w-auto" />
+            <h2 className="text-7xl font-black bg-black text-white px-8 py-4 uppercase transform -rotate-2">
+              The Blacklist
+            </h2>
+          </div>
+          <p className="text-4xl font-black text-gray-300 uppercase italic">Wall of Shame</p>
+        </div>
+
+        {/* FOREGROUND REPORTS LAYER */}
+        <div className="relative z-10 space-y-8">
           {reports && reports.length > 0 ? (
             reports.map((report) => (
-              <div key={report.id} className="border-4 border-black rounded-none shadow-[12px_12px_0px_0px_rgba(220,38,38,1)] overflow-hidden">
-                <div className="bg-white p-6 border-b-4 border-black">
+              <div key={report.id} className="border-4 border-black bg-white shadow-[12px_12px_0px_0px_rgba(220,38,38,1)] overflow-hidden">
+                <div className="p-6 border-b-4 border-black">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-3xl font-black uppercase underline decoration-red-600">{report.casino_name}</h3>
+                    <h3 className="text-3xl font-black uppercase underline">{report.casino_name}</h3>
                     <div className="bg-red-600 text-white font-black px-4 py-2 text-xl border-2 border-black">
                       ${report.amount_owed} OWED
                     </div>
                   </div>
-                  <p className="text-xl font-bold leading-tight mb-4 italic text-gray-900">"{report.issue_description}"</p>
-                  <div>
-                    <span className={`font-black text-sm px-4 py-2 border-2 border-black uppercase tracking-tighter ${report.status === 'resolved' ? 'bg-green-400 text-black' : 'bg-yellow-400 text-black'}`}>
+                  <p className="text-xl font-bold italic text-gray-900">"{report.issue_description}"</p>
+                  <div className="mt-4">
+                    <span className={`font-black text-sm px-4 py-2 border-2 border-black uppercase ${report.status === 'resolved' ? 'bg-green-400' : 'bg-yellow-400'}`}>
                       Status: {report.status || 'UNRESOLVED'}
                     </span>
                   </div>
                 </div>
-                <div className="bg-black text-white p-6 flex gap-4 items-start">
-                  <div className="bg-white text-black font-black text-xs px-2 py-1 uppercase rotate-90 mt-4">REPLY</div>
+                <div className="bg-black text-white p-6 flex gap-4">
+                  <div className="bg-white text-black font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">REPLY</div>
                   <div>
-                    <h4 className="font-black text-red-500 uppercase mb-2 tracking-widest">Official Casino Response:</h4>
+                    <h4 className="font-black text-red-500 uppercase mb-2">Official Casino Response:</h4>
                     <p className="text-lg font-bold text-gray-300 italic">
-                      {report.casino_response || "PENDING INVESTIGATION: No response received from operator yet."}
+                      {report.casino_response || "PENDING INVESTIGATION: No response received yet."}
                     </p>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center py-20 border-4 border-dashed border-gray-400">
+            <div className="text-center py-20 border-4 border-dashed border-gray-400 bg-white/80">
               <p className="text-2xl font-black text-gray-400 uppercase">Searching database for reports...</p>
             </div>
           )}
