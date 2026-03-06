@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseclient';
 
@@ -20,9 +21,10 @@ export default function Home() {
     <main className="relative max-w-4xl mx-auto p-6 font-sans bg-white min-h-screen text-black text-left">
       <header className="text-center py-10 border-b-4 border-black mb-8">
         <div className="flex justify-center gap-4 mb-6">
-          <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
-          <img src="/2.png" alt="Warning" className="h-24 w-auto border-2 border-black shadow-md" />
+           <img src="/1.png" alt="Blacklist" className="h-24 w-auto border-2 border-black shadow-md" />
+           <img src="/2.png" alt="Warning" className="h-24 w-auto border-2 border-black shadow-md" />
         </div>
+        
         <h1 className="text-5xl font-black mb-4 uppercase italic tracking-tighter">WWW.CASINO-NO-PAY.COM</h1>
         <p className="text-xl font-bold text-red-600 uppercase tracking-widest border-y-2 border-red-600 py-2 inline-block">
           Exposing platforms that refuse to pay!
@@ -32,41 +34,47 @@ export default function Home() {
       {/* REPORT FORM SECTION */}
       <section id="report-form" className="relative z-10 bg-red-600 p-8 border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] mb-12 text-white">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-5xl font-black uppercase italic underline">Submit Report</h2>
-          <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
+           <h2 className="text-5xl font-black uppercase italic underline">Submit Report</h2>
+           <img src="/4.png" alt="Submit" className="h-20 w-auto invert" />
         </div>
         
-        <form onSubmit={async (e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const { error } = await supabase
-            .from('reports')
-            .insert([{
-              casino_name: formData.get('casino_name'),
-              amount_owed: parseFloat(formData.get('amount') as string),
-              issue_description: formData.get('issue'),
-              status: 'pending'
-            }]);
-
-          if (error) {
-            alert("Error: " + error.message);
-          } else {
-            alert("Report Submitted Successfully!");
-            window.location.reload();
-          }
-        }} className="space-y-6">
+        <form 
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const { error } = await supabase
+              .from('reports')
+              .insert([{ 
+                casino_name: formData.get('casino_name'), 
+                amount_owed: parseFloat(formData.get('amount') as string), 
+                issue_description: formData.get('issue'),
+                status: 'pending' 
+              }]);
+              
+            if (error) {
+              alert("Error: " + error.message);
+            } else {
+              alert("Report Submitted Successfully!");
+              window.location.reload();
+            }
+          }} 
+          className="space-y-6"
+        >
           <div>
             <label className="block font-black uppercase text-xl mb-2">Casino Name / URL</label>
             <input name="casino_name" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="e.g. scamcasino.com" />
           </div>
+
           <div>
             <label className="block font-black uppercase text-xl mb-2">Amount Owed ($)</label>
             <input name="amount" type="number" required className="w-full p-4 border-4 border-black text-black font-bold text-lg" placeholder="0.00" />
           </div>
+
           <div>
             <label className="block font-black uppercase text-xl mb-2">Describe the Issue</label>
             <textarea name="issue" required className="w-full p-4 border-4 border-black text-black font-bold text-lg h-32" placeholder="Tell us what happened..."></textarea>
           </div>
+
           <button type="submit" className="w-full bg-black hover:bg-gray-900 text-white font-black text-3xl py-6 border-4 border-white uppercase italic transform transition hover:scale-105">
             SUBMIT TO BLACKLIST 🚩
           </button>
@@ -75,7 +83,7 @@ export default function Home() {
 
       {/* THE BLACKLIST SECTION WITH BACKGROUND GRAPHICS */}
       <section className="relative my-16 min-h-[600px]">
-        {/* GRAPHICS LAYER (Sits behind the reports) */}
+        {/* GRAPHICS LAYER (This sits BEHIND the reports) */}
         <div className="absolute inset-0 z-0 flex flex-col items-center justify-start pt-10 opacity-20 pointer-events-none">
           <div className="flex items-center gap-4 mb-4">
             <img src="/3.png" alt="Alert" className="h-24 w-auto" />
@@ -86,7 +94,7 @@ export default function Home() {
           <p className="text-5xl font-black text-gray-400 uppercase italic tracking-widest">Wall of Shame</p>
         </div>
 
-        {/* REPORTS LAYER (Sits on top) */}
+        {/* REPORTS LAYER (This sits ON TOP) */}
         <div className="relative z-10 space-y-8">
           {reports && reports.length > 0 ? (
             reports.map((report) => (
@@ -105,14 +113,15 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
+                
                 <div className="bg-black text-white p-6 flex gap-4">
-                  <div className="bg-white text-black font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">REPLY</div>
-                  <div>
-                    <h4 className="font-black text-red-500 uppercase mb-2">Official Casino Response:</h4>
-                    <p className="text-lg font-bold text-gray-300 italic leading-snug">
-                      {report.casino_response || "PENDING INVESTIGATION: No response received from operator yet."}
-                    </p>
-                  </div>
+                   <div className="bg-white text-black font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">REPLY</div>
+                   <div>
+                      <h4 className="font-black text-red-500 uppercase mb-2">Official Casino Response:</h4>
+                      <p className="text-lg font-bold text-gray-300 italic leading-snug">
+                        {report.casino_response || "PENDING INVESTIGATION: No response received from operator yet."}
+                      </p>
+                   </div>
                 </div>
               </div>
             ))
@@ -125,8 +134,8 @@ export default function Home() {
       </section>
 
       <footer className="text-center py-10 opacity-70">
-        <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale" />
-        <p className="font-bold uppercase tracking-widest text-black">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
+         <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale" />
+         <p className="font-bold uppercase tracking-widest text-black">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
       </footer>
     </main>
   );
