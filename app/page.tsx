@@ -28,26 +28,18 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Split reports into Blacklist (Unresolved) vs Wall of Pay (Resolved)
   const blacklistReports = reports.filter((r) => r.status !== 'resolved');
   const paidReports = reports.filter((r) => r.status === 'resolved');
 
-  // Multi-platform viral share generator
   const getShareLink = (report, platform) => {
     const text = `⚠️ DISPUTE: Casino ${report.casino_name} refuses to pay $${report.amount_owed}! View the proof and help expose them on Casino-No-Pay:`;
     const url = `https://www.casino-no-pay.com/#dispute-${report.id}`;
-
     switch (platform) {
-      case 'x':
-        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-      case 'reddit':
-        return `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`;
-      case 'facebook':
-        return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-      case 'whatsapp':
-        return `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
-      default:
-        return '#';
+      case 'x': return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      case 'reddit': return `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`;
+      case 'facebook': return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      case 'whatsapp': return `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
+      default: return '#';
     }
   };
 
@@ -140,27 +132,14 @@ export default function Home() {
       </section>
 
       {/* SECTION 1: THE BLACKLIST */}
-      <section className="relative my-20 min-h-[400px]">
-        {/* GRAPHICS LAYER (Behind reports) */}
-        <div className="absolute inset-0 z-0 flex flex-col items-center justify-start pt-10 opacity-10 pointer-events-none">
-          <div className="flex items-center gap-4 mb-4">
-            <img src="/3.png" alt="Alert Graphic" className="h-24 w-auto" />
-            <h2 className="text-8xl font-black bg-white text-black px-10 py-4 uppercase transform -rotate-2">
-              The Blacklist
-            </h2>
-          </div>
-          <p className="text-5xl font-black text-zinc-600 uppercase italic tracking-widest">Wall of Shame</p>
-        </div>
-
-        {/* FOREGROUND REPORTS */}
-        <div className="relative z-10 space-y-8">
+      <section className="relative my-20">
+        <div className="space-y-8">
           <h2 className="text-4xl font-black uppercase italic bg-red-600 text-white p-4 border-4 border-white inline-block transform -rotate-1 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            🚩 UNRESOLVED DISPUTES
+            🚩 UNRESOLVED DISPUTES (THE BLACKLIST)
           </h2>
-          
+
           {blacklistReports.length > 0 ? (
             blacklistReports.map((report) => {
-              // Check if casino has locked in their rules
               const isCasinoRegistered = verifiedCasinos.some(
                 (c) => c.casino_name.toLowerCase().trim() === report.casino_name.toLowerCase().trim()
               );
@@ -174,8 +153,7 @@ export default function Home() {
                         ${report.amount_owed} OWED
                       </div>
                     </div>
-                    
-                    {/* AUDIT SYSTEM STATUS BADGE */}
+
                     <div className="mb-4">
                       {isCasinoRegistered ? (
                         <span className="font-black text-xs px-3 py-1.5 border-2 border-green-500 bg-green-950 text-green-400 uppercase tracking-wider inline-block">
@@ -189,16 +167,13 @@ export default function Home() {
                     </div>
 
                     <p className="text-xl font-bold italic text-zinc-100 leading-tight mb-4">"{report.issue_description}"</p>
-                    
-                    {/* DISPUTE ACTIONS (EVIDENCE & VIRAL SHARING) */}
+
                     <div className="flex flex-wrap gap-4 items-center mt-6 p-4 bg-zinc-950 border-2 border-zinc-800">
                       {report.evidence_url && (
                         <a href={report.evidence_url} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white font-black px-4 py-2 border-2 border-white hover:bg-blue-700 uppercase italic text-xs">
                           View Proof 📄
                         </a>
                       )}
-                      
-                      {/* SHARING TRAY */}
                       <span className="text-xs font-black uppercase text-zinc-400 mr-2">Blast Dispute:</span>
                       <div className="flex gap-2">
                         <a href={getShareLink(report, 'x')} target="_blank" rel="noreferrer" className="bg-black border-2 border-zinc-700 px-2 py-1 text-xs font-bold hover:border-white">X</a>
@@ -215,8 +190,7 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-                  
-                  {/* CASINO RESPONSE BOX */}
+
                   <div className="bg-zinc-950 p-6 flex gap-4 border-t-2 border-red-900">
                     <div className="bg-red-600 text-white font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">REPLY</div>
                     <div>
@@ -238,8 +212,8 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: THE WALL OF PAY */}
-      <section className="relative my-24 min-h-[400px]">
-        <div className="relative z-10 space-y-8">
+      <section className="relative my-24">
+        <div className="space-y-8">
           <div className="bg-green-600 text-white p-4 border-4 border-white shadow-[8px_8px_0px_0px_rgba(34,197,94,1)] inline-block transform rotate-1">
             <h2 className="text-4xl font-black uppercase italic text-yellow-300">
               ✅ THE WALL OF PAY (HONOR ROLL)
@@ -259,11 +233,16 @@ export default function Home() {
                       ${report.amount_owed} PAID OUT
                     </div>
                   </div>
+
                   <p className="text-xl font-bold italic text-zinc-100 leading-tight mb-4">"{report.issue_description}"</p>
-                  
-                  {/* RESOLVED CASE SHARING */}
+
                   <div className="flex flex-wrap gap-4 items-center mt-6 p-4 bg-zinc-950 border-2 border-zinc-800">
-                    <span className="text-xs font-black uppercase text-zinc-400">Share Resolution:</span>
+                    {report.evidence_url && (
+                      <a href={report.evidence_url} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white font-black px-4 py-2 border-2 border-white hover:bg-blue-700 uppercase italic text-xs">
+                        View Proof 📄
+                      </a>
+                    )}
+                    <span className="text-xs font-black uppercase text-zinc-400 mr-2">Share Resolution:</span>
                     <div className="flex gap-2">
                       <a href={getShareLink(report, 'x')} target="_blank" rel="noreferrer" className="bg-black border-2 border-zinc-700 px-2 py-1 text-xs font-bold hover:border-white">X</a>
                       <a href={getShareLink(report, 'reddit')} target="_blank" rel="noreferrer" className="bg-orange-600 border-2 border-zinc-700 px-2 py-1 text-xs font-bold hover:border-white">Reddit</a>
@@ -277,11 +256,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* RESOLUTION PROOF BOX */}
                 <div className="bg-zinc-950 p-6 flex gap-4 border-t-2 border-green-900">
                   <div className="bg-green-600 text-white font-black text-xs px-2 py-1 uppercase rotate-90 h-fit mt-2">PROOF</div>
                   <div>
-                    <h4 className="font-black text-green-400 uppercase mb-2 text-sm tracking-wider">Resolution Details & Proof:</h4>
+                    <h4 className="font-black text-green-400 uppercase mb-2 text-sm tracking-wider">Resolution Details:</h4>
                     <p className="text-lg font-bold text-zinc-300 italic leading-snug">
                       {report.casino_response || "Operator verified payout and resolved player complaint."}
                     </p>
@@ -291,20 +269,16 @@ export default function Home() {
             ))
           ) : (
             <div className="text-center py-12 border-4 border-dashed border-zinc-700 bg-zinc-900/50">
-              <p className="text-2xl font-black text-zinc-500 uppercase">No resolved payout records yet.</p>
+              <p className="text-2xl font-black text-green-600 uppercase">No resolved payout records yet.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* FOOTER HAZARD STRIP */}
-      <div className="h-6 w-full bg-[linear-gradient(45deg,#facc15_25%,#000_25%,#000_50%,#facc15_50%,#facc15_75%,#000_75%,#000)] bg-[length:40px_40px] border-t-4 border-black mt-16 mb-4"></div>
-
-      <footer className="text-center py-8 opacity-70">
-        <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale invert" />
-        <p className="font-bold uppercase tracking-widest text-zinc-400 text-xs">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
+      <footer className="text-center py-12 border-t-2 border-zinc-800 mt-20 opacity-70">
+        <img src="/5.png" alt="Footer Logo" className="h-16 w-auto mx-auto mb-4 grayscale opacity-40" />
+        <p className="font-bold uppercase tracking-widest text-zinc-400 text-sm">© 2024 CASINO-NO-PAY WATCHDOG GROUP</p>
       </footer>
     </main>
   );
 }
-
